@@ -5,8 +5,8 @@ export type Goal = {
   is_completed: boolean;
   goal_period: "yearly" | "quarterly" | "monthly";
   period_start: string;
-  category: Category | null;
-  activity: Activity | null;
+  category: any;
+  activity: any;
   created_at: string;
   completed_at: string | null;
 };

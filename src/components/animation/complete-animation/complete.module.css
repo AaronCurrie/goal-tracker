@@ -5,9 +5,35 @@
 }
 
 .animationContainer {
+    border-radius: 20px;
+    margin: 1rem;
+    border-radius: 20px;
     max-width: 600px;
-    padding: 1rem;
     animation: growFadeIn 0.4s ease-out forwards;
+    overflow: hidden;
+    color: white;
+    background: linear-gradient(135deg, #4caf4f, #37833a);
+}
+
+.completeCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    border-radius: 20px;
+    padding: 1rem;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #c1c1c1;
+    color: #3730a3;
 }
 
 @keyframes growFadeIn {

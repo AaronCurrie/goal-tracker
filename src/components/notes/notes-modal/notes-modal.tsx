@@ -33,7 +33,7 @@ export default function NotesModal({notes, closeModal, setNoteState, newNote, se
             <Model onClose={closeModal}>
                 <div className={styles.notes} onClick={(e) => e.stopPropagation()}>
                     <span className={styles.metaLabel}>Notes</span>
-                    <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
+                    <div className={styles.row}><Input label={`Add note`} value={newNote} setState={() => setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
                     {notes.map((note, index) => {
                             return (
                                 <div key={index} className={styles.row}>

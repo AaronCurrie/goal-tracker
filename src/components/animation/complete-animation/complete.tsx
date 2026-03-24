@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
 import styles from "./complete.module.css";
 import confetti from "canvas-confetti";
-import Button from "@/components/button/button";
 import { Overlay } from "@/components/utility-comps/overlay";
+import { Goal } from "@/lib/types/goals";
+import Pill from "@/components/pill/pill";
 
-
-
-export default function CompleteAnimation({onClose }: { onClose: () => void }) {
+export default function CompleteAnimation({goal, onClose }: { goal: Goal | null, onClose: () => void }) {
     const canvasRef1 = useRef<HTMLCanvasElement | any>(undefined);
     const canvasRef2 = useRef<HTMLCanvasElement | any>(undefined);
 
@@ -42,8 +41,20 @@ export default function CompleteAnimation({onClose }: { onClose: () => void }) {
     return (
         <Overlay onClick={onClose}>
             <div className={styles.animationContainer} onClick={e => e.stopPropagation()}>
-                <img src={"/character/mountain-celebrate.png"} alt="Complete Animation" className={styles.image} />
-                <Button button={{text: "Done!", style: "complete"}} onClick={() => onClose()} />
+                <img src={"/character/mountain-celebrate-v2.png"} alt="Complete Animation" className={styles.image} />
+                <div className={styles.completeCard}>
+                    <h2 className={styles.title}>Goal Completed!</h2>
+                    {goal && 
+                    (<div className={styles.content}>
+                        <div>
+                            <Pill item={goal.category} colour={"green"} />
+                            <Pill item={goal.activity} colour={"green"} />
+                        </div>
+                        <h3 className={styles.subtitle}>{goal.title}</h3>
+                        {goal.completed_at && <p>Completed on: {new Date(goal.completed_at).toLocaleDateString()}</p>}
+                    </div>)}
+                    <h3>Nice work! Keep it up!</h3>
+                </div>
             </div>
             <canvas
                 ref={canvasRef1}
@@ -54,6 +65,7 @@ export default function CompleteAnimation({onClose }: { onClose: () => void }) {
                     width: "100%",
                     height: "100%",
                     pointerEvents: "none",
+                    zIndex: 9998,
                 }}
             />
             <canvas
@@ -65,6 +77,7 @@ export default function CompleteAnimation({onClose }: { onClose: () => void }) {
                     width: "100%",
                     height: "100%",
                     pointerEvents: "none",
+                    zIndex: 9998,
                 }}
             />
         </Overlay>

@@ -37,6 +37,10 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith("/login")) {
       return response;
     }
+    if(pathname.startsWith("/signup")) {
+      return response;
+    }
+    // Redirect to login for any other page
 
     const url = request.nextUrl.clone();
     url.pathname = "/login";

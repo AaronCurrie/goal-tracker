@@ -5,9 +5,9 @@
     color: #000;
     font-weight: bold;
     font-size: 1rem;
-    border: 2px solid #2e2e2e;
-    border-radius: 6px;
-    box-shadow: 2px 4px 0px #2e2e2e;
+    border: 1px solid #2e2e2e4e;
+    border-radius: 16px;
+    box-shadow: 2px 4px 0px #2e2e2e4e;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -20,15 +20,14 @@
     align-items: flex-start;
     height: 100%;
     flex: 3;
-    padding: 0.5rem;
+    padding: 1rem;
     transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .pills {
     position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    
+    top: 0.2rem;
+    left: 0.2rem;
 }
 
 .complete {
@@ -42,5 +41,37 @@
 
 .green {
     color: white;
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #4caf4f, #37833a);
+    box-shadow: 2px 4px 0px #2e6a30;
+    border: 1px solid #2e6a30;
+}
+
+.fontSmall {
+    font-size: 0.9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.fontLarge {
+    font-size: 1rem;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.button {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
 }

@@ -1,13 +1,14 @@
 'use client'
 import { Activity, Category, Goal } from "@/lib/types/goals";
-import style from "./edit-goal-form.module.css";
+import style from "../forms.module.css";
 import { useState } from "react";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 
 import Button from "@/components/button/button";
 import PillSelector from "../input-components/pill-selector/pill-selector";
 import Input from "../input-components/input/input";
-import ScrollSelector from "../scroll-selector/scroll-selector";
+import ScrollSelector from "../input-components/scroll-selector/scroll-selector";
+import PeriodSelectorInput from "../input-components/period-selector/period-selector";
 
 
 type Props = {
@@ -23,7 +24,7 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
     const [categoryState, setCategoryState] = useState<Category[]>(categories);
     const [activityState, setActivityState] = useState<Activity[]>(activities);
 
-    const [periodType, setPeriodType] = useState<"Yearly" | "Quarterly" | "Monthly">(period as "Yearly" | "Quarterly" | "Monthly");
+    const [periodType, setPeriodType] = useState<"yearly" | "quarterly" | "monthly">(period.toLowerCase() as "yearly" | "quarterly" | "monthly");
     const [title, setTitle] = useState<string>(goal.title);
     const [periodStart, setPeriodStart] = useState<string>(goal.period_start);
     const [category, setCategory] = useState<string | null>(goal.category?.id ?? null);
@@ -71,11 +72,13 @@ export default function EditGoalForm({goal, cancel, setGoal} : Props) {
         setLoading(false);
         cancel();
     }
+    console.log(periodStart, 'PERIODSTART');
 
     return (
         <form className={style.form} onSubmit={handleSubmit}>
             <Input label="Title" setState={setTitle} value={title} />
-            <ScrollSelector datesMeta={{ year: goal.period_start, period: period }} setTypeState={setPeriodType} typeValue={periodType} setDateState={setPeriodStart} />
+            <PeriodSelectorInput period={periodType} setPeriodType={setPeriodType} />
+            <ScrollSelector typeValue={periodType} originalPeriodStart={goal.period_start} periodStart={periodStart} setPeriodStart={setPeriodStart} />
             <PillSelector label="Category" group={categoryState} selected={category} setGroupState={setCategoryState} setState={setCategory}/>
             <PillSelector label="Activity" group={activityState} selected={activity} setGroupState={setActivityState} setState={setActivity}/>
             <textarea

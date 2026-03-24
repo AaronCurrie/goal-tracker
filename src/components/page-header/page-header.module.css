@@ -1,3 +1,12 @@
+.container {
+    overflow: hidden;
+    border-radius: 20px 20px 20px 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin: 1rem;
+    background-color: white;
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -12,6 +21,23 @@
     text-align: center;
 }
 
+.topRow {
+  padding: 1rem;
+}
+
 .spacer {
     width: 40px;
+}
+
+.complete {
+    color: white;
+    background: linear-gradient(135deg, #4caf4f, #37833a);
+}
+
+.completeDate {
+  padding: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -1,5 +1,5 @@
 .container {
-    padding: 120px 0;
+    padding: 140px 0 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,8 +18,60 @@
     width: 100%;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.progressContainer {
+    position: relative;
+    width: calc(100% - 2rem);
+    height: 1.5rem;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin: 0rem 1rem 1rem 1rem;
+    overflow: hidden;
+}
+
+.progressBar {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(135deg, #4cff52, #10d816);
+    border-radius: 8px;
+    transition: width 0.6s ease-in-out;
+}
+
+.smallGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-rows: 120px;
+    grid-auto-rows: 120px;
+    gap: 8px;
+    width: 100%;
+}
+
+.smallGrid div {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.smallGrid div a, .smallGrid div div {
+    font-size: 14px;
+    padding: 0.5rem
+}
+
 @media (max-width: 540px) {
     .cardDisplay {
         grid-template-columns: 100%;
+    } 
+
+    .smallGrid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 }

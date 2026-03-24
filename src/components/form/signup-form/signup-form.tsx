@@ -3,7 +3,7 @@
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import styles from "./signup-form.module.css";
+import styles from "../forms.module.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -146,8 +146,9 @@ export default function Signup() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
+    <Link href={'/login'}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>
+
     <div className={styles.header}>
-        <Link href={'/login'}><FontAwesomeIcon size='2x' icon={faCircleArrowLeft} /></Link>
         <h1 className={styles.title}>Sign Up</h1>
     </div>
 
@@ -232,7 +233,7 @@ export default function Signup() {
         {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword}</p>}
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+      <div>
         <button className={styles.submitButton} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Creating account..." : "Sign up"}
         </button>

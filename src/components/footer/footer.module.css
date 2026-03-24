@@ -2,9 +2,21 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    display: flex;
+    display: grid;
+    align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    background-color: #f7f9ff;
+    grid-template-columns: 70px 70px 100px 70px 70px;
     padding: 10px;
-    background-color: #f0f0f0;
+    border-top: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px -1px 4px rgba(27, 42, 137, 0.295);
+    border-radius: 20px 20px 0 0;
+}
+
+.inactive {
+    filter: grayscale(100%);
+}
+
+.active {
+    filter: grayscale(0);
 }

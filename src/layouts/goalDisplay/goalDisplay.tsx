@@ -9,6 +9,8 @@ import filterGoals from "@/lib/filter/filter-goals";
 import AddButton from "@/components/button/add-button/add-button";
 import { useGoalsData } from "@/lib/contexts/goals-data-context";
 import CompleteAnimation from "@/components/animation/complete-animation/complete";
+import IconButton from "@/components/button/icon-button";
+import { faFilter, faList, faTableCells } from "@fortawesome/free-solid-svg-icons";
 
 const DEFAULT_FILTERS: GoalFilters = {
   status: "all",
@@ -30,12 +32,13 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
     const [goalState, setGoalState] = useState<Goals>(goals);
     const [goalCounts, setGoalCounts] = useState({ total: goals.length, completed: goals.filter(g => g.is_completed).length });
     const [showAnimation, setShowAnimation] = useState<boolean>(false);
+    const [grid, setGrid] = useState<boolean>(false);
+    const [expandFilter, setExpandFilter] = useState<boolean>(false);
     
     const [filters, setFilters] = useState<GoalFilters>(DEFAULT_FILTERS);
 
     const datesMeta = useMemo(() => {
-        const capPeriod = date.period.charAt(0).toUpperCase() + date.period.slice(1);
-        return { year: date.year, period: capPeriod };
+        return { year: date.year, period: date.period };
     }, [date.year, date.period]);
 
     const visibleGoals = useMemo(() => filterGoals(goalState, filters), [goalState, filters]);
@@ -46,15 +49,23 @@ export default function GoalDisplay({goals, date}: CardDisplayProps) {
 
     return (
         <section className={styles.container}>
-            <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
-            <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categories} activities={activities} />
-            <div className={styles.cardDisplay}>
-                {visibleGoals.map((goal) => {
-                    return <GoalCard key={goal.id} goalData={goal} setGoalState={setGoalState} setShowAnimation={setShowAnimation} />
-                })}
-                <AddButton query={`year=${datesMeta.year}&period=${datesMeta.period}`} />
+            <div className={styles.progressContainer}>
+                <span className={styles.progressBar} style={{ width: `${goalCounts.total === 0 ? 0 : (goalCounts.completed / goalCounts.total) * 100}%` }}></span>
             </div>
-            {showAnimation && <CompleteAnimation onClose={() => setShowAnimation(false)} />}
+            <div className={styles.header}>
+                <IconButton size={'2x'} icon={grid ? faList : faTableCells} button={{ alt: "Toggle Grid", style: "default" }} onClick={() => setGrid(!grid)} cornerButton={false} />
+                <p>Completed: {goalCounts.completed} / {goalCounts.total}</p>
+                <IconButton icon={faFilter} size='2x' button={{style: expandFilter ? "blue" : "default", alt: "Filters"}} onClick={() => setExpandFilter(!expandFilter)} cornerButton={false} />
+            </div>
+
+            {expandFilter && <Filter filters={filters} onChange={setFilters} onReset={() => setFilters(DEFAULT_FILTERS)} categories={categories} activities={activities} />}
+            <div className={`${styles.cardDisplay} ${grid ? styles.smallGrid : ''}`}>
+                {visibleGoals.map((goal) => {
+                    return <GoalCard grid={grid} key={goal.id} goalData={goal} setGoalState={setGoalState} setShowAnimation={setShowAnimation} />
+                })}
+                <AddButton query={`date=${datesMeta.year}&period=${datesMeta.period}`} />
+            </div>
+            {showAnimation && <CompleteAnimation goal={null} onClose={() => setShowAnimation(false)} />}
         </section>
     )
 }

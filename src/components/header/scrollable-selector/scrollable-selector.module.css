@@ -1,21 +1,26 @@
-.selectorBlock {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-}
-
 .dateSelector {
     display: grid;
     gap: 8px;
 }
 
-.singleLine {
-    grid-template-columns: 1fr;
+.dateDisplay {
+    border-radius: 9999px;
+    background-color: #f7f9ff;
+    border: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+    font-weight: 700;
+    font-size: 24px;
+    padding: 0.5rem 1rem;
 }
 
-.doubleLine {
-    grid-template-columns: 2fr 1fr;
+.chevron {
+    border-radius: 9999px;
+    background-color: #f7f9ff;
+    border: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+    font-weight: 700;
+    font-size: 24px;
+    padding: 0.5rem 0.5rem;
 }
 
 .scrollSelector {
@@ -24,9 +29,7 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 12px;
-    color: #1b2a89ff;
     width: 100%;
-
 }
 
 .scrollSelector button {

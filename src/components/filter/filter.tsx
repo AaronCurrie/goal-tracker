@@ -2,7 +2,7 @@ import { Activity, Category, Goal, GoalFilters } from "@/lib/types/goals";
 import Button from "../button/button";
 import styles from "./filter.module.css";
 import IconButton from "../button/icon-button";
-import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 type Props = {
@@ -14,15 +14,13 @@ type Props = {
 };
 
 export default function Filter({filters, onChange, onReset, categories, activities}: Props) {
-        const [expanded, setExpanded] = useState(false);
 
         return (
             <div className={styles.filterContainer}>
                 <div className={styles.filterBar}>
                     <input type="text" placeholder="Search..." className={styles.search} value={filters.search} onChange={(e) => onChange({...filters, search: e.target.value})} />
-                    <IconButton icon={faChevronCircleDown} size='2x' rotate={expanded? 180 : 0} button={{style: "default", alt: "Filters"}} onClick={() => setExpanded(!expanded)} cornerButton={false} />
                 </div>
-                {expanded && <div className={styles.filters}>
+                <div className={styles.filters}>
                 <div className={styles.filterItem}>
                     <label htmlFor="status">Status:</label>
                     <select 
@@ -66,7 +64,7 @@ export default function Filter({filters, onChange, onReset, categories, activiti
                 <div className={styles.filterItem}>
                     <Button button={{text: "Clear Filters", style: "edit"}} onClick={onReset}/>
                 </div>
-                </div>}
+                </div>
             </div>
         )
 }

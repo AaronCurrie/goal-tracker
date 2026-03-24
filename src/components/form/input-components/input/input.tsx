@@ -1,4 +1,4 @@
-import style from "./input.module.css";
+import style from "../../forms.module.css";
 
 type Props = {
     label: string;

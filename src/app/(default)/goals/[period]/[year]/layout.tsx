@@ -5,7 +5,7 @@ export default async function YearLayout({
   children, params
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ period: string, year: string, date: string }>;
+  params: Promise<{ period: string, year: string }>;
 }>) {
   const {period, year} = await params;
 
