@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Varela_Round } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import "../styles/global.css";
 
 config.autoAddCss = false
+
+const varela = Varela_Round({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-varela",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${varela.variable}`}>
       <body data-testid='layout-body'>
         {children}
       </body>

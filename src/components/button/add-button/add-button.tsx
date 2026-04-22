@@ -9,7 +9,7 @@ export default function AddButton({ query }: { query: string }) {
 
   return (
       <Link href={`/goals/new/?${query}`} className={styles.add}>
-        <FontAwesomeIcon icon={faPlus} />
+        <FontAwesomeIcon size={'2x'} icon={faPlus} />
       </Link>
   );
 }

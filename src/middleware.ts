@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+  console.log('!!!!!!!!!!AUTH CHECK');
   const { pathname } = request.nextUrl;
 
   // ---- 1️⃣ If NOT logged in ----
@@ -37,6 +37,10 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith("/login")) {
       return response;
     }
+    if(pathname.startsWith("/signup")) {
+      return response;
+    }
+    // Redirect to login for any other page
 
     const url = request.nextUrl.clone();
     url.pathname = "/login";

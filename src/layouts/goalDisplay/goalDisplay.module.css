@@ -1,5 +1,5 @@
 .container {
-    padding: 120px 0;
+    padding: 140px 0 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,8 +18,119 @@
     width: 100%;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.progressContainer {
+    position: relative;
+    width: calc(100% - 2rem);
+    height: 1.5rem;
+    background-color: #989898;
+    border-radius: 8px;
+    margin: 0rem 1rem 1rem 1rem;
+    overflow: hidden;
+}
+
+.progressBarContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.progressBar {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(135deg, #4caf4f, #37833a);
+    transition: width 0.6s ease-in-out;
+}
+
+.failedProgress {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    transition: width 0.6s ease-in-out;
+}
+
+.progressInfo {
+    color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.filterPillContainer {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filterPill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.45rem 0.45rem;
+    border-radius: 20px;
+    margin: 3px;
+    font-size: 12px;
+    border: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+    color: #3730A3;
+    background-color: #f7f9ff;
+}
+
+.smallGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-rows: 130px;
+    grid-auto-rows: 130px;
+    gap: 8px;
+    width: 100%;
+}
+
+.smallGrid > div {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.smallGrid div a {
+    font-size: 14px;
+    padding: 0.5rem
+}
+
+.smallGrid div div {
+    font-size: 12px;
+    padding: 0.25rem 0.5rem 1rem 0.5rem;
+}
+
 @media (max-width: 540px) {
     .cardDisplay {
         grid-template-columns: 100%;
+    } 
+
+    .smallGrid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 }

@@ -2,13 +2,14 @@ export type Goal = {
   id: string;
   title: string;
   description?: string | null;
-  is_completed: boolean;
+  status: "active" | "completed" | "failed";
   goal_period: "yearly" | "quarterly" | "monthly";
   period_start: string;
-  category: Category | null;
-  activity: Activity | null;
+  category: any;
+  activity: any;
   created_at: string;
   completed_at: string | null;
+  failed_at: string | null;
 };
 
 export type GoalFilters = {

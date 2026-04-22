@@ -11,4 +11,5 @@ export default function translateDateToDisplay(period: string, date: string) {
         const monthIndex = Math.floor((Number(date.split("-")[1]) - 1) / 3);
         return `Q${monthIndex + 1} ${date.split("-")[0]}`;
     }
+    return date;
 }

@@ -1,0 +1,6 @@
+.image {
+    max-width: 400px;
+    object-fit: contain;
+    border-radius: 9999px;
+    width: 100%;
+}

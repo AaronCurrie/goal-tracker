@@ -3,7 +3,7 @@ import styles from "./utility-comps.module.css"
 
 interface OverlayProps {
     children: React.ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export const Overlay: React.FC<OverlayProps> = ({ children, onClick }) => {

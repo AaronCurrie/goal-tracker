@@ -42,7 +42,7 @@ export const getGoalsForPeriodAndDate = async (period: Period, date: string) => 
       id,
       title,
       description,
-      is_completed,
+      status,
       goal_period,
       period_start,
       created_at,

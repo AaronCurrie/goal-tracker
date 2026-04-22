@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import style from "./scrollable-selector.module.css";
 import Link from "next/link";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     year: number;
@@ -13,40 +13,26 @@ export default function ScrollableLinks({ year, period, date }: Props) {
     const types = ["yearly", "quarterly", "monthly"];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     
-    const linkBuilder = (direction: number, scrollType: "period" | "yearly" | "quarterly" | "monthly" | "year"): string => {
-        if(scrollType === "period") {
-            const currentIndex = types.indexOf(period);
-            if(currentIndex + direction < 0 ) {
-                return `/goals/${types[types.length - 1]}/${year}-0${new Date().getMonth() + 1}-01`;
-            }
-            if(currentIndex + direction >= types.length) {
-                return `/goals/${types[0]}/${year}-0${new Date().getMonth() + 1}-01`;
-            }
-            return `/goals/${types[currentIndex + direction]}/${year}-0${new Date().getMonth() + 1}-01`;
-        }
-        if(scrollType === "year") {
-            return `/goals/${period}/${year + direction}-${date}-01`;
-        }
+    const linkBuilder = (direction: number, scrollType: "yearly" | "quarterly" | "monthly" ): string => {
         if(scrollType === "yearly") {
-            return `/goals/${scrollType}/${year + direction}`;
+            return `/goals/${scrollType}/${year + direction}-${date}-01`;
         }
         if (scrollType === "quarterly") {
-        const currentMonth = Number(date);
-        const nextMonthRaw = currentMonth + direction * 3;
-        const monthIndex = nextMonthRaw - 1;
-        const normalizedMonth = ((monthIndex % 12) + 12) % 12;
-
-        const finalMonth = String(normalizedMonth + 1).padStart(2, "0");
-
-        return `/goals/${scrollType}/${year}-${finalMonth}-01`;
+            const currentMonth = Number(date);
+            const nextMonthRaw = currentMonth + direction * 3;
+            const yearOffset = Math.floor((nextMonthRaw - 1) / 12);
+            const normalizedMonth = ((nextMonthRaw - 1) % 12 + 12) % 12 + 1;
+            const finalYear = Number(year) + yearOffset;
+            const finalMonth = String(normalizedMonth).padStart(2, "0");
+            return `/goals/${scrollType}/${finalYear}-${finalMonth}-01`;
         }
+
         if (scrollType === "monthly") {
-            const d = new Date(year, Number(date) - 1, 1);
+            const d = new Date(Number(year), Number(date) - 1, 1);
             d.setMonth(d.getMonth() + direction);
-
+            const newYear = d.getFullYear();
             const newMonth = String(d.getMonth() + 1).padStart(2, "0");
-
-            return `/goals/${scrollType}/${year}-${newMonth}-01`;
+            return `/goals/${scrollType}/${newYear}-${newMonth}-01`;
         }
         return "/";
     }
@@ -65,26 +51,12 @@ export default function ScrollableLinks({ year, period, date }: Props) {
     }
 
     return (
-        <div className={style.selectorBlock}>
-            <div className={style.scrollSelector}>
-                <Link href={linkBuilder(-1, "period")}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                    <span>{period.toUpperCase()}</span>
-                <Link href={linkBuilder(1, "period")}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
-            </div>
-            <div className={`${style.dateSelector} ${period === 'yearly' ? style.singleLine : style.doubleLine}`}>
-                {period !== 'yearly' && 
-                (<div className={style.scrollSelector}>
-                    <Link href={linkBuilder(-1, period)}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                        <span>{dateDisplay()}</span>
-                    <Link href={linkBuilder(1, period)}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
-                </div>
-                )}
+            <div className={`${style.dateSelector}`}>
                 <div className={style.scrollSelector}>
-                    <Link href={linkBuilder(-1, 'year')}><FontAwesomeIcon size={'2x'} icon={faCaretLeft} /></Link>
-                        <span>{year}</span>
-                    <Link href={linkBuilder(1, 'year')}><FontAwesomeIcon size={'2x'} icon={faCaretRight} /></Link>
+                    <Link className={style.chevron} href={linkBuilder(-1, period)}><FontAwesomeIcon icon={faChevronLeft} /></Link>
+                        <span className={style.dateDisplay} >{`${dateDisplay()} ${year}`}</span>
+                    <Link className={style.chevron} href={linkBuilder(1, period)}><FontAwesomeIcon icon={faChevronRight} /></Link>
                 </div>
             </div>
-        </div>
     )
 }

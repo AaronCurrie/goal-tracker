@@ -1,10 +1,10 @@
 import { GoalNote } from "@/lib/types/goals";
 import { useState } from "react";
-import styles from "./notes-display.module.css";
-import Input from "@/components/form/input-components/input/input";
-import IconButton from "@/components/button/icon-button";
-import { faPlus, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
-import NotesModal from "../notes-modal/notes-modal";
+import styles from "../notes.module.css";
+import NoteEditor from "../note-editor/note-editor";
+import AddNewNote from "../add-new-note/add-new-note";
+import ErrorModal from "@/components/error/error-modal/error-modal";
+import Note from "../note/note";
 
 type Props = {
     notes: GoalNote[];
@@ -12,41 +12,19 @@ type Props = {
     setNoteState: React.Dispatch<React.SetStateAction<GoalNote[]>>;
 }
 
-export default function NoteDisplay({ notes, goalId, setNoteState }: Props) {
+export default function NoteDisplay({ notes, goalId, setNoteState }: Props) { 
+    const [error, setError] = useState<string | null>(null);
+    const [editNote, setEditNote] = useState<GoalNote | null>(null);
 
-    const [newNote, setNewNote] = useState("");
-    const [expanded, setExpanded] = useState(false);
-
-    const handleAddNote = () => {
-        if (newNote.trim() === "") return;
-        fetch(`/api/goal/${goalId}/notes/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: newNote }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.note) {
-                setNoteState((prev) => [data.note, ...prev]);
-            }
-        });
-        setNewNote("");
-    }
-
-  return (
-    <div className={styles.notesContainer}>
-          <IconButton icon={faUpRightAndDownLeftFromCenter} button={{ alt: "Expand", style: "default" }} onClick={() => setExpanded(!expanded)} cornerButton={true} />
-          <span className={styles.metaLabel}>Notes</span>
-          <div className={styles.row}><Input label={`Add note`} value={newNote} setState={setNewNote} /><IconButton icon={faPlus} button={{ alt: "Add", style: "blueCircle" }} onClick={handleAddNote} cornerButton={false} /></div>
-          {notes.map((note, index) => {
-            return (
-                <div key={index} className={styles.noteContent}>
-                    <span className={styles.metaLabel}>{new Date(note.created_at).toLocaleString()}</span>
-                    <p>{note.content}</p>
-                </div>
-            )
-          })}
-          {expanded && <NotesModal notes={notes} setNoteState={setNoteState} newNote={newNote} setNewNote={setNewNote} handleAddNote={handleAddNote} closeModal={() => setExpanded(false)} />}
-    </div>
-  );
+    return (
+        <div className={styles.notesContainer}>
+            <span className={styles.metaLabel}>Notes</span>
+            <AddNewNote goalId={goalId} setNoteState={setNoteState} setError={setError} />
+            {notes.map((note, index) => {
+                return <Note key={index} note={note} setEditNote={setEditNote} />
+            })}
+            {editNote && <NoteEditor editingNote={editNote} setEditNote={setEditNote} setError={setError} setNoteState={setNoteState} />}
+            {error && <ErrorModal error={error} closeModal={() => setError(null)} />}
+        </div>
+    );
 }

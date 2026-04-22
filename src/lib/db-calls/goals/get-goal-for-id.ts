@@ -10,7 +10,7 @@ export const getGoalForId = cache(async (id: string) => {
             id,
             title,
             description,
-            is_completed,
+            status,
             goal_period,
             period_start,
             created_at,

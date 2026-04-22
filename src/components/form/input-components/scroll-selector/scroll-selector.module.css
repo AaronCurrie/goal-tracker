@@ -1,0 +1,37 @@
+.dateSelector {
+    display: grid;
+    gap: 8px;
+}
+
+.dateDisplay {
+    border-radius: 9999px;
+    background-color: #f7f9ff;
+    border: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 0.5rem 1rem;
+}
+
+.chevron {
+    border-radius: 9999px;
+    background-color: #f7f9ff;
+    border: 1px solid rgba(27, 42, 137, 0.295);
+    box-shadow: 1px 2px 4px rgba(27, 42, 137, 0.295);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 0.5rem 0.5rem;
+}
+
+.scrollSelector {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.scrollSelector button {
+    color: #1b2a89ff
+}

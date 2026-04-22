@@ -3,56 +3,75 @@ import styles from '../pill-editing/pill-editor.module.css'
 import IconButton from "@/components/button/icon-button";
 import Input from "@/components/form/input-components/input/input";
 import { faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { Activity, Category } from '@/lib/types/goals';
+import { editItem } from '@/lib/db-calls/item/edit-item';
+import { deleteItem } from '@/lib/db-calls/item/delete-item';
+import DeleteModal from '@/components/delete-modal/delete-modal';
 
-export default function ItemEditor({item, label, setGroupState}: {item: {id: string, name: string}, label: string, setGroupState: React.Dispatch<React.SetStateAction<any[]>>}) {
+type Props = {
+    item: { id: string, name: string };
+    label: string;
+    setGroupState: React.Dispatch<React.SetStateAction<any[]>>;
+    setError: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+export default function ItemEditor({item, label, setGroupState, setError}: Props) {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [validation, setValidation] = useState<{[key: string]: string}>({});
+
     const [edited, setEdited] = useState(false);
     const [itemState, setItemState] = useState<string>(item.name);
+    const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
     const handleDelete = async (id: string) => {
-        const res = await fetch(`/api/${label.toLowerCase()}/${id}/delete`, {
-            method: "DELETE",
-        });
-        const body = await res.json().catch(() => ({}));
-        if (!res.ok) {
+        setLoading(true);
+        setError(null);
+        let deletedItem: Category | Activity;
+        try {
+            deletedItem = await deleteItem({ label, id });
+        } catch (error:any) {
             setLoading(false);
-            setError(body?.error ?? "Failed to delete");
+            setError(error.message);
             return;
         }
         setGroupState((prev) => prev.filter((item) => item.id !== id));
+        setLoading(false);
     }
 
     const handleEdit = async (id: string) => {
         if (!edited) return;
-        setLoading(true);
-        const res = await fetch(`/api/${label.toLowerCase()}/${id}/edit`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: itemState,
-            }),
-        });
-        const body = await res.json().catch(() => ({}));
-        if (!res.ok) {
-            setLoading(false);
-            setError(body?.error ?? "Failed to edit");
+        if(!itemState) {
+            setValidation({ ...validation, itemState: "This field is required" });
             return;
         }
-        setGroupState((prev) => prev.map((i) => i.id === id ? { ...i, name: body.name } : i));
+        setError(null);
+        setLoading(true);
+        let updatedItem: Category | Activity;
+        try {
+            updatedItem = await editItem({ label, itemUpdate: itemState, id });
+        } catch (error:any) {
+            setLoading(false);
+            setError(error.message);
+            return;
+        }
+        setGroupState((prev) => prev.map((i) => i.id === id ? { ...i, name: updatedItem.name } : i));
         setEdited(false);
         setLoading(false);
     }
 
     useEffect(() => {
+        if(itemState) {
+            setValidation({ ...validation, itemState: "" });
+        }
         setEdited(itemState !== item.name);
     }, [itemState])
 
     return (
         <div className={styles.row} key={item.id}>
-            <Input value={itemState} label={item.name} setState={setItemState} />
+            {loading ? <p>Loading...</p> : <Input value={itemState} label={item.name} setState={setItemState} error={validation.itemState} />}
             <IconButton icon={faFloppyDisk} disabled={!edited} button={{ alt: "Edit", style: "blue" }} onClick={() => handleEdit(item.id)} cornerButton={false} />
-            <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => handleDelete(item.id)} cornerButton={false} />
+            <IconButton icon={faTrashCan} button={{ alt: "Edit", style: "red" }} onClick={() => setConfirmDelete(true)} cornerButton={false} />
+            {confirmDelete && <DeleteModal label={label} message={`This will permanently delete the ${label} and all associated data. It cannot be undone.`} setConfirm={setConfirmDelete} deleteAction={() => handleDelete(item.id)} />}
         </div>
     );
 }
